@@ -5,8 +5,8 @@ global:
 
 # --> (Optional) Change log level and format here ...
 #     - level: [TRACE, DEBUG, INFO, WARN, ERROR, FATAL]
-# log:
-#  level: ERROR
+log:
+  level: ERROR
 # <--
 
 # --> (Optional) Enable accesslog here ...
@@ -56,7 +56,7 @@ providers:
     exposedByDefault: false  # <-- (Optional) Change this to true if you want to expose all services
     # Specify discovery network - This ensures correct name resolving and possible issues with containers, that are in multiple networks.
     # E.g. Database container in a separate network and a container in the frontend and database network.
-    network: frontend
+    network: home-lab
   file:
     directory: /etc/traefik
     watch: true
