@@ -24,4 +24,5 @@ services:
     volumes:
       - dnsmasq:/etc/dnsmasq.d
       - etcd:/etc/pihole
+      - /mnt/user/Docker/Home-Lab-Docker-Compose/pihole/dnsmasqd/02-wildcard.conf:/etc/dnsmasq.d/02-wildcard.conf:ro
     restart: unless-stopped
