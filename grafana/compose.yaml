@@ -11,6 +11,8 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
     restart: unless-stopped
+    networks:
+      - home-lab
     labels:
       - traefik.enable=true
       - traefik.http.routers.nginx-http. rule=Host(grafana.jlseholdings.com' )
