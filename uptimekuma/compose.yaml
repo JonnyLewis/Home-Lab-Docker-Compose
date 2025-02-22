@@ -12,5 +12,7 @@ services:
       - /run/docker.sock:/var/run/docker.sock
       - uptimekuma-data:/app/data
     restart: unless-stopped
-
+    dns:
+      - 192.168.4.15
+      - 8.8.8.8
 
