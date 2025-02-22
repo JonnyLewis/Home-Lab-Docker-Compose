@@ -1,37 +1,26 @@
 ---
-services:
-  adguardhome:
-    image: adguard/adguardhome
-    container_name: adguardhome
-    volumes:
-      - ./conf:/opt/adguardhome/conf
-      - ./work:/opt/adguardhome/work
-    ports:
-        # DNS
-        - 53:53
-          # # DHCP server
-          # - 67:67/udp
-          # - 68:68/udp
-          # # HTTPS/DNS-over-HTTPS
-          # - 443:443/tcp
-          # # DNS-over-TLS
-          # - 853:853/tcp
-          # # DNS-over-QUIC
-          # - 853:853/udp
-          # # DNSCrypt
-          # - 5443:5443/tcp
-          # - 5443:5443/udp
-          # # WebUI
-          # - 3000:3000/tcp
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.adguardhome.entrypoints=insecure"
-      - "traefik.http.routers.adguardhome.rule=Host(`adguard.$DOMAIN`)"
-      - "traefik.http.services.adguardhome.loadbalancer.server.port=3000"
-      # - "traefik.http.routers.adguardhome.tls.certresolver=le"
-
+version: '3'
 networks:
-    default:
-        external:
-            name: $DEFAULT_NETWORK
+  br0:
+    external: true  # Use the already created MacVLAN network
+
+services:
+  adguard:
+    container_name: adguard
+    image: adguard/adguardhome:latest
+    networks:
+      br0:
+        ipv4_address: 192.168.4.16  # Assign a static IP for AdGuard
+    environment:
+      - TZ=Africa/Johannesburg
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN  # Required for DNS and DHCP handling
+    ports:
+      - "53:53/tcp"     # DNS over TCP
+      - "53:53/udp"     # DNS over UDP
+      - "67:67/udp"     # DHCP (if you use it)
+      - "80:80/tcp"     # Web UI (HTTP)
+      - "443:443/tcp"   # DNS over HTTPS
+      - "853:853/tcp"   # DNS over TLS
+      - "3000:3000/tcp" # Initial setup page
