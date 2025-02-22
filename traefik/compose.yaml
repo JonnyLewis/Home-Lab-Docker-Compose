@@ -1,4 +1,6 @@
 ---
+version: '3.8'
+
 services:
   traefik:
     image: docker.io/library/traefik:v3.3.3
@@ -6,8 +8,7 @@ services:
     ports:
       - 80:80
       - 443:443
-      - 8085:8080  # Secure Dashboard access
-      - 8082:8082  # Expose Prometheus metrics for monitoring
+      - 8082:8082  # Expose only Prometheus metrics
     volumes:
       - /run/docker.sock:/run/docker.sock:ro
       - /mnt/user/Docker/Home-Lab-Docker-Compose/traefik/config/:/etc/traefik/:ro
@@ -17,6 +18,19 @@ services:
     networks:
       - home-lab
     restart: unless-stopped
+    command:
+      - "--api.dashboard=false"  # Disable Traefik dashboard
+      - "--api.insecure=false"   # Block insecure API exposure
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.entryPoint=metrics"
+      - "--entryPoints.metrics.address=:8082"
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.metrics.rule=Host(`traefik.metrics.jlseholdings.com`)"
+      - "traefik.http.routers.metrics.entrypoints=websecure"
+      - "traefik.http.routers.metrics.tls=true"
+      - "traefik.http.services.metrics.loadbalancer.server.port=8082"
 
 networks:
   home-lab:
