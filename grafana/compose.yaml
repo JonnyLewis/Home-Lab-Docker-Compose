@@ -21,7 +21,7 @@ services:
       - "traefik.http.routers.grafana-https.rule=Host(`grafana.jlseholdings.com`)"
       - "traefik.http.routers.grafana-https.entrypoints=websecure"
       - "traefik.http.routers.grafana-https.tls=true"
-      - "traefik.http.routers.grafana-https.tls.certresolver=cloudflare"
+      - "traefik.http.routers.grafana-https.tls.certresolver=godaddy"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
 
 networks:
