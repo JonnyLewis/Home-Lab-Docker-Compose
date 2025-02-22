@@ -9,6 +9,7 @@ services:
       - 80:80
       - 443:443
       - 8085:8080
+      - 8082:8082
     volumes:
       - /run/docker.sock:/run/docker.sock:ro
       - /mnt/user/Docker/Home-Lab-Docker-Compose/traefik/config/:/etc/traefik/:ro
@@ -22,18 +23,6 @@ services:
       - "--metrics.prometheus=true"
       - "--metrics.prometheus.entryPoint=metrics"
       - "--entryPoints.metrics.address=:8082"
-
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.metrics.rule=Host(`metrics.jlseholdings.com`)"
-      - "traefik.http.routers.metrics.entrypoints=websecure"
-      - "traefik.http.routers.metrics.tls=true"
-      - "traefik.http.services.metrics.loadbalancer.server.port=8082"
-
-      - "traefik.http.routers.traefik.rule=Host(`traefik.jlseholdings.com`)"
-      - "traefik.http.routers.traefik.entrypoints=websecure"
-      - "traefik.http.routers.traefik.tls=true"
-      - "traefik.http.routers.traefik.service=api@internal"
 
 networks:
   home-lab:
