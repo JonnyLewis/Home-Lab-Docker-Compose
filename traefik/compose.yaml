@@ -19,6 +19,11 @@ services:
     networks:
       - home-lab
     restart: unless-stopped
+    command:
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
+      - "--providers.docker=true"
+      - "--providers.docker.watch"
 
 networks:
   home-lab:
