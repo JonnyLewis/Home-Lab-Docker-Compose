@@ -8,7 +8,7 @@ volumes:
     driver: local
 
 networks:
-  pihole_macvlan:
+  br0:
     external: true  # Use the already created MacVLAN network
 
 services:
@@ -16,7 +16,7 @@ services:
     container_name: pihole
     image: docker.io/pihole/pihole:2025.02.4
     networks:
-      pihole_macvlan:
+      br0:
         ipv4_address: 192.168.4.15  # Pi-hole's dedicated IP
     environment:
       - TZ=Africa/Johannesburg
