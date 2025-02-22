@@ -38,7 +38,7 @@ services:
       - "traefik.http.routers.homepage-https.rule=Host(`homepage.jlseholdings.com`)"
       - "traefik.http.routers.homepage-https.entrypoints=websecure"
       - "traefik.http.routers.homepage-https.tls=true"
-      - "traefik.http.routers.homepage-https.tls.certresolver=cloudflare"
+      - "traefik.http.routers.homepage-https.tls.certresolver=godaddy"
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"
 
 networks:
