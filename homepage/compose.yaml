@@ -32,7 +32,7 @@ services:
     networks:
       - home-lab
     restart: unless-stopped
-      labels:
+    labels:
       - "traefik.enable=true"
       - "traefik.http.routers.homepage-http.rule=Host(`prometheus.jlseholdings.com`)"
       - "traefik.http.routers.homepage-http.entrypoints=web"
