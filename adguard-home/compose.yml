@@ -11,6 +11,9 @@ services:
     networks:
       br0:
         ipv4_address: 192.168.4.15  # Assign a static IP for AdGuard
+    volumes:
+      - /mnt/user/DockerStorage/adguard/conf:/opt/adguardhome/conf
+      - /mnt/user/DockerStorage/adguard/work:/opt/adguardhome/work
     environment:
       - TZ=Africa/Johannesburg
     restart: unless-stopped
