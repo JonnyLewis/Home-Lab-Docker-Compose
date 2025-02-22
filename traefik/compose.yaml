@@ -6,20 +6,31 @@ services:
     ports:
       - 80:80
       - 443:443
-      - 8085:8080
-      # --> (Optional) Enable Dashboard, don't do in production
-      # - 8080:8080
-      # <--
+      - 8085:8080  # Secure Dashboard access
+      - 8082:8082  # Expose Prometheus metrics for monitoring
     volumes:
       - /run/docker.sock:/run/docker.sock:ro
       - /mnt/user/Docker/Home-Lab-Docker-Compose/traefik/config/:/etc/traefik/:ro
       - /mnt/user/Docker/Home-Lab-Docker-Compose/traefik/certs/:/var/traefik/certs/:rw
     environment:
-      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}  # <-- Change this to your Cloudflare API Token
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}  # Cloudflare API Token for certs
     networks:
       - home-lab
     restart: unless-stopped
+    labels:
+      # Enable Traefik API & Dashboard (Access via https://traefik.jlseholdings.com)
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.jlseholdings.com`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.service=api@internal"
+
+      # Prometheus Metrics for Monitoring
+      - "traefik.http.routers.metrics.rule=Host(`metrics.jlseholdings.com`)"
+      - "traefik.http.routers.metrics.entrypoints=websecure"
+      - "traefik.http.routers.metrics.tls=true"
+      - "traefik.http.services.metrics.loadbalancer.server.port=8082"
 
 networks:
   home-lab:
-    external: true  # <-- (Optional) Change this to false if you want to create a new network
+    external: true  # Keep using the existing network
