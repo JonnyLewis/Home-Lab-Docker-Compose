@@ -33,9 +33,9 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.homepage-http.rule=Host(`prometheus.jlseholdings.com`)"
+      - "traefik.http.routers.homepage-http.rule=Host(`homepage.jlseholdings.com`)"
       - "traefik.http.routers.homepage-http.entrypoints=web"
-      - "traefik.http.routers.homepage-https.rule=Host(`prometheus.jlseholdings.com`)"
+      - "traefik.http.routers.homepage-https.rule=Host(`homepage.jlseholdings.com`)"
       - "traefik.http.routers.homepage-https.entrypoints=websecure"
       - "traefik.http.routers.homepage-https.tls=true"
       - "traefik.http.routers.homepage-https.tls.certresolver=cloudflare"
