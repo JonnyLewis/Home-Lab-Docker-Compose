@@ -11,3 +11,12 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
     restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.nginx-http. rule=Host(grafana.jlseholdings.com' )
+      - traefik.http.routers.nginx-http.entrypoints=web
+      - traefik.http.routers.nginx-https.tls=true
+      - traefik.http.routers.nginx-https.certresolver=cloudflare
+      - traefik.http.routers.nginx-https.entrypoints=websecure
+      - traefik.http.routers.nginx-https.rule=Host(grafana.jlseholdings.com')
+      # - "traefik.http.routers.homarr.tls.certresolver=le"
