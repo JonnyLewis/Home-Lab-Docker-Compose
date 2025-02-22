@@ -19,7 +19,7 @@ services:
       - "traefik.http.routers.uptimekuma-https.rule=Host(`up.jlseholdings.com`)"
       - "traefik.http.routers.uptimekuma-https.entrypoints=websecure"
       - "traefik.http.routers.uptimekuma-https.tls=true"
-      - "traefik.http.routers.uptimekuma-https.tls.certresolver=cloudflare"
+      - "traefik.http.routers.uptimekuma-https.tls.certresolver=godaddy"
       - "traefik.http.services.uptimekuma.loadbalancer.server.port=3001"
 
 networks:
