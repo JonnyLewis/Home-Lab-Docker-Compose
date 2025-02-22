@@ -15,8 +15,7 @@ services:
       - /mnt/user/Docker/Home-Lab-Docker-Compose/traefik/config/:/etc/traefik/:ro
       - /mnt/user/Docker/Home-Lab-Docker-Compose/traefik/certs/:/var/traefik/certs/:rw
     environment:
-      - GODADDY_API_KEY=${GODADDY_API_KEY}
-      - GODADDY_API_SECRET=${GODADDY_API_SECRET}
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
     networks:
       - home-lab
     restart: unless-stopped
