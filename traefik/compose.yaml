@@ -19,8 +19,6 @@ services:
       - home-lab
     restart: unless-stopped
     command:
-      - "--api.dashboard=true"  # Disable Traefik dashboard
-      - "--api.insecure=false"   # Block insecure API exposure
       - "--metrics.prometheus=true"
       - "--metrics.prometheus.entryPoint=metrics"
       - "--entryPoints.metrics.address=:8082"
