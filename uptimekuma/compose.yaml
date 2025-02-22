@@ -8,6 +8,7 @@ services:
     container_name: uptimekuma
     ports:
       - 3001:3001
+    network_mode: bridge
     volumes:
       - /run/docker.sock:/var/run/docker.sock
       - uptimekuma-data:/app/data
