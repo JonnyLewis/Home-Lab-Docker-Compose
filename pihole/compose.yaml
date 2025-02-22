@@ -7,20 +7,22 @@ volumes:
   etcd:
     driver: local
 
+networks:
+  br0:
+    external: true  # Use the already created MacVLAN network
+
 services:
   pihole:
     container_name: pihole
-    image: docker.io/pihole/pihole:2024.07.0
-    ports:
-      - 53:53/tcp
-      - 53:53/udp
-      - 67:67/udp
-      - 80:80/tcp
-      - 443:443/tcp
+    image: docker.io/pihole/pihole:2025.02.4
+    networks:
+      br0:
+        ipv4_address: 192.168.4.15  # Pi-hole's dedicated IP
     environment:
-      - TZ=Europe/Berlin
-      - WEBPASSWORD=your-secret-password
+      - TZ=Africa/Johannesburg
+      - WEBPASSWORD=${WEBPASSWORD}
     volumes:
       - dnsmasq:/etc/dnsmasq.d
       - etcd:/etc/pihole
+      - /mnt/user/Docker/Home-Lab-Docker-Compose/pihole/dnsmasqd/02-wildcard.conf:/etc/dnsmasq.d/02-wildcard.conf:ro
     restart: unless-stopped
