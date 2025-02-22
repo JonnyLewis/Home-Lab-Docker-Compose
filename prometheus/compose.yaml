@@ -6,7 +6,6 @@ services:
   prometheus:
     image: docker.io/prom/prometheus:v3.1.0
     container_name: prometheus
-    ports:
     command: "--config.file=/etc/prometheus/prometheus.yaml"
     volumes:
       - /mnt/user/Docker/Home-Lab-Docker-Compose/prometheus/config/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
