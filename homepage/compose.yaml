@@ -14,7 +14,6 @@ services:
       - /mnt/user/Docker/Home-Lab-Docker-Compose/homepage/config:/app/config
       - /mnt/user/Docker/Home-Lab-Docker-Compose/homepage/images:/app/images  # for custom background images
       - /mnt/user/Docker/Home-Lab-Docker-Compose/homepage/icons:/app/icons  # for custom icons
-    restart: unless-stopped
 #   (Optional) For secure docker socket integration
 #   dockerproxy:
 #     image: ghcr.io/tecnativa/docker-socket-proxy:0.3.0
