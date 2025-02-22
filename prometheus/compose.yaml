@@ -7,9 +7,23 @@ services:
     image: docker.io/prom/prometheus:v3.1.0
     container_name: prometheus
     ports:
-      - 9090:9090
     command: "--config.file=/etc/prometheus/prometheus.yaml"
     volumes:
-      - ./config/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      - /mnt/user/Docker/Home-Lab-Docker-Compose/prometheus/config/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
       - prometheus-data:/prometheus
+    networks:
+      - home-lab
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus-http.rule=Host(`prometheus.jlseholdings.com`)"
+      - "traefik.http.routers.prometheus-http.entrypoints=web"
+      - "traefik.http.routers.prometheus-https.rule=Host(`prometheus.jlseholdings.com`)"
+      - "traefik.http.routers.prometheus-https.entrypoints=websecure"
+      - "traefik.http.routers.prometheus-https.tls=true"
+      - "traefik.http.routers.prometheus-https.tls.certresolver=cloudflare"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+
+networks:
+  home-lab:
+    external: true
