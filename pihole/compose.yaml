@@ -19,7 +19,7 @@ services:
       - 443:443/tcp
     environment:
       - TZ=Europe/Berlin
-      - WEBPASSWORD=your-secret-password
+      - WEBPASSWORD=${WEBPASSWORD}
     volumes:
       - dnsmasq:/etc/dnsmasq.d
       - etcd:/etc/pihole
