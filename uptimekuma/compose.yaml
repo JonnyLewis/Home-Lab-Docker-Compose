@@ -8,7 +8,9 @@ services:
     container_name: uptimekuma
     ports:
       - 3001:3001
-    network_mode: bridge
+    networks:
+      br0:
+        ipv4_address: 192.168.4.14  # Assign a static IP for AdGuard
     volumes:
       - /run/docker.sock:/var/run/docker.sock
       - uptimekuma-data:/app/data
@@ -16,4 +18,8 @@ services:
     dns:
       - 192.168.4.15
       - 8.8.8.8
+
+networks:
+  br0:
+    external: true  # Use the already created MacVLAN network
 
