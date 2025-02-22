@@ -10,7 +10,7 @@ services:
     image: adguard/adguardhome:latest
     networks:
       br0:
-        ipv4_address: 192.168.4.16  # Assign a static IP for AdGuard
+        ipv4_address: 192.168.4.15  # Assign a static IP for AdGuard
     environment:
       - TZ=Africa/Johannesburg
     restart: unless-stopped
