@@ -8,18 +8,29 @@ services:
     network_mode: "host"  # UPnP requires host networking to work properly
     environment:
       - MINIDLNA_FRIENDLY_NAME=Unraid MiniDLNA
-      #- MINIDLNA_MEDIA_DIR=V,/media/videos
-      #- MINIDLNA_MEDIA_DIR=A,/media/audio
-      #- MINIDLNA_MEDIA_DIR=P,/media/photos
+      - MINIDLNA_MEDIA_DIR=V,/media/Series
+      - MINIDLNA_MEDIA_DIR=A,/media/Movies
       - MINIDLNA_INOTIFY=yes  # Auto-refresh when files change
       - MINIDLNA_ENABLE_TIVO=no  # Disable TiVo support if not needed
       - MINIDLNA_LOG_LEVEL=info  # Adjust log verbosity
       - MINIDLNA_PORT=8200  # Default port
     volumes:
-      - /path/to/your/media:/media:ro  # Mount your media folder
+      - /mnt/user/PlexMedia:/media:ro  # Mount your media folder
       - /path/to/config:/etc/minidlna  # Optional: Persist MiniDLNA database/config
-    ports:
-      - "8200:8200"  # Web interface (if needed)
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - home-lab
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dlna-http.rule=Host(`dlna.jlseholdings.com`)"
+      - "traefik.http.routers.dlna-http.entrypoints=web"
+      - "traefik.http.routers.dlna-https.rule=Host(`dlna.jlseholdings.com`)"
+      - "traefik.http.routers.dlna-https.entrypoints=websecure"
+      - "traefik.http.routers.dlna-https.tls=true"
+      - "traefik.http.routers.dlna-https.tls.certresolver=cloudflare"
+      - "traefik.http.services.dlna.loadbalancer.server.port=8200"
 
+networks:
+  home-lab:
+    external: true
