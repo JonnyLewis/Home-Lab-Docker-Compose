@@ -1,4 +1,5 @@
----
+version: '3.8'
+
 services:
   traefik:
     image: docker.io/library/traefik:v3.3.3
@@ -7,19 +8,27 @@ services:
       - 80:80
       - 443:443
       - 8085:8080
-      # --> (Optional) Enable Dashboard, don't do in production
-      # - 8080:8080
-      # <--
+      - 8899:8899  # Exposing the Prometheus metrics port
+
     volumes:
       - /run/docker.sock:/run/docker.sock:ro
       - /mnt/user/Docker/Home-Lab-Docker-Compose/traefik/config/:/etc/traefik/:ro
       - /mnt/user/Docker/Home-Lab-Docker-Compose/traefik/certs/:/var/traefik/certs/:rw
     environment:
-      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}  # <-- Change this to your Cloudflare API Token
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
     networks:
       - home-lab
     restart: unless-stopped
+    command:
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
+      - "--metrics.prometheus.addEntryPointsLabels=true"
+      - "--metrics.prometheus.addServicesLabels=true"
+      - "--metrics.prometheus.entryPoint=metrics"
+      - "--entryPoints.metrics.address=:8899"  # Dedicated metrics entrypoint
+      - "--providers.docker=true"
+      - "--providers.docker.watch"
 
 networks:
   home-lab:
-    external: true  # <-- (Optional) Change this to false if you want to create a new network
+    external: true
