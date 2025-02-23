@@ -7,8 +7,8 @@ services:
     ports:
       - 80:80
       - 443:443
-      - 8085:8080
-      - 8899:8899  # Exposing the Prometheus metrics port
+      - 8085:8080  # Traefik Dashboard
+      - 8899:8899  # Prometheus metrics
 
     volumes:
       - /run/docker.sock:/run/docker.sock:ro
@@ -20,15 +20,25 @@ services:
       - home-lab
     restart: unless-stopped
     command:
+      - "--api.dashboard=true"
+      - "--api.insecure=false"
+
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.metrics.address=:8899"
+
       - "--metrics.prometheus=true"
       - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
       - "--metrics.prometheus.addEntryPointsLabels=true"
       - "--metrics.prometheus.addServicesLabels=true"
       - "--metrics.prometheus.entryPoint=metrics"
-      - "--entryPoints.metrics.address=:8899"  # Dedicated metrics entrypoint
+
       - "--providers.docker=true"
       - "--providers.docker.watch"
+
     labels:
+      - "traefik.enable=true"
+
       - "traefik.http.routers.traefik-https.rule=Host(`traefik.jlseholdings.com`)"
       - "traefik.http.routers.traefik-https.entrypoints=websecure"
       - "traefik.http.routers.traefik-https.tls=true"
