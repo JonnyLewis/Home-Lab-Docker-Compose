@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  minidlna:
+    image: vladgh/minidlna:latest
+    container_name: minidlna
+    restart: unless-stopped
+    network_mode: "host"  # UPnP requires host networking to work properly
+    environment:
+      - MINIDLNA_FRIENDLY_NAME=Unraid MiniDLNA
+      #- MINIDLNA_MEDIA_DIR=V,/media/videos
+      #- MINIDLNA_MEDIA_DIR=A,/media/audio
+      #- MINIDLNA_MEDIA_DIR=P,/media/photos
+      - MINIDLNA_INOTIFY=yes  # Auto-refresh when files change
+      - MINIDLNA_ENABLE_TIVO=no  # Disable TiVo support if not needed
+      - MINIDLNA_LOG_LEVEL=info  # Adjust log verbosity
+      - MINIDLNA_PORT=8200  # Default port
+    volumes:
+      - /path/to/your/media:/media:ro  # Mount your media folder
+      - /path/to/config:/etc/minidlna  # Optional: Persist MiniDLNA database/config
+    ports:
+      - "8200:8200"  # Web interface (if needed)
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
