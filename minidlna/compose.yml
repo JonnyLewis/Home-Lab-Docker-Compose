@@ -5,7 +5,6 @@ services:
     image: vladgh/minidlna:latest
     container_name: minidlna
     restart: unless-stopped
-    network_mode: "host"  # UPnP requires host networking to work properly
     environment:
       - MINIDLNA_FRIENDLY_NAME=Unraid MiniDLNA
       - MINIDLNA_MEDIA_DIR=V,/media/Series
