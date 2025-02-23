@@ -7,8 +7,8 @@ services:
     restart: unless-stopped
     environment:
       - MINIDLNA_FRIENDLY_NAME=Unraid MiniDLNA
-      - MINIDLNA_MEDIA_DIR=V,/media/series
-      - MINIDLNA_MEDIA_DIR=A,/media/Movies
+      - MINIDLNA_MEDIA_DIR_1=/media/series
+      - MINIDLNA_MEDIA_DIR_2=/media/Movies
       - MINIDLNA_INOTIFY=yes  # Auto-refresh when files change
       - MINIDLNA_ENABLE_TIVO=no  # Disable TiVo support if not needed
       - MINIDLNA_LOG_LEVEL=info  # Adjust log verbosity
