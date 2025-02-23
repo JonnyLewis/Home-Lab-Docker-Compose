@@ -16,12 +16,11 @@ services:
       - MINIDLNA_PORT=8200  # Default port
     volumes:
       - /mnt/user/PlexMedia:/media:ro  # Mount your media folder
-      - /path/to/config:/etc/minidlna  # Optional: Persist MiniDLNA database/config
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      - /path/to/config:/etc/minidlna  # Optional: Persist MiniDLNA database/config      
     networks:
       - home-lab
     labels:
+      - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
       - "traefik.http.routers.dlna-http.rule=Host(`dlna.jlseholdings.com`)"
       - "traefik.http.routers.dlna-http.entrypoints=web"
