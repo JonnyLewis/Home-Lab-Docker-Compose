@@ -7,14 +7,15 @@ services:
     restart: unless-stopped
     environment:
       - MINIDLNA_FRIENDLY_NAME=Unraid MiniDLNA
-      - MINIDLNA_MEDIA_DIR=V,/media/Series
+      - MINIDLNA_MEDIA_DIR=V,/media/series
       - MINIDLNA_MEDIA_DIR=A,/media/Movies
       - MINIDLNA_INOTIFY=yes  # Auto-refresh when files change
       - MINIDLNA_ENABLE_TIVO=no  # Disable TiVo support if not needed
       - MINIDLNA_LOG_LEVEL=info  # Adjust log verbosity
       - MINIDLNA_PORT=8200  # Default port
     volumes:
-      - /mnt/user/PlexMedia:/media:ro  # Mount your media folder
+      - /mnt/user/PlexMedia/Series:/media/series:ro  # Mount your media folder
+      - /mnt/user/PlexMedia/Movies:/media/movies:ro  # Mount your media folder
       - /path/to/config:/etc/minidlna  # Optional: Persist MiniDLNA database/config      
     network_mode: "host" 
     labels:
