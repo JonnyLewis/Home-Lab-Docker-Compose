@@ -28,6 +28,12 @@ services:
       - "--entryPoints.metrics.address=:8899"  # Dedicated metrics entrypoint
       - "--providers.docker=true"
       - "--providers.docker.watch"
+    labels:
+      - "traefik.http.routers.traefik-https.rule=Host(`traefik.jlseholdings.com`)"
+      - "traefik.http.routers.traefik-https.entrypoints=websecure"
+      - "traefik.http.routers.traefik-https.tls=true"
+      - "traefik.http.routers.traefik-https.tls.certresolver=cloudflare"
+      - "traefik.http.routers.traefik-https.service=api@internal"
 
 networks:
   home-lab:
